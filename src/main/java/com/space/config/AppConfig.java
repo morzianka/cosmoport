@@ -23,7 +23,7 @@ import static org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType.
 
 @Configuration
 @EnableTransactionManagement
-@ComponentScan("com.space.service")
+@ComponentScan("com.space")
 @EnableJpaRepositories(basePackages = "com.space.repository")
 public class AppConfig {
 
