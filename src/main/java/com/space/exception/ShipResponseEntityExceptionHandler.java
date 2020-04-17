@@ -13,11 +13,13 @@ public class ShipResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     @ExceptionHandler(value = {RequestException.class})
     protected ResponseEntity<Object> handle(RequestException ex, WebRequest request) {
+        System.out.println(ex);
         return handleExceptionInternal(ex, null, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
 
-    @ExceptionHandler(value = {InvalidParameterException.class})
-    protected ResponseEntity<Object> handle(InvalidParameterException ex, WebRequest request) {
+    @ExceptionHandler(value = {InvalidParameterException.class, Exception.class})
+    protected ResponseEntity<Object> handle(Exception ex, WebRequest request) {
+        System.out.println(ex);
         return handleExceptionInternal(ex, null, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
 }

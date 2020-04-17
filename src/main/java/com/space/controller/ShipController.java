@@ -1,6 +1,7 @@
 package com.space.controller;
 
 import com.space.model.Ship;
+import com.space.model.ShipType;
 import com.space.service.ShipService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,10 +21,19 @@ public class ShipController {
         this.shipService = shipService;
     }
 
-
     @GetMapping("/ships")
-    public ResponseEntity<List<Ship>> get() {
-        List<Ship> ships = shipService.getAll();
+    public ResponseEntity<List<Ship>> get(String name, String planet,
+                                          @RequestParam(required = false) ShipType shipType,
+                                          Long after, Long before,
+                                          @RequestParam(defaultValue = "false") Boolean isUsed,
+                                          Double minSpeed, Double maxSpeed,
+                                          Integer minCrewSize, Integer maxCrewSize,
+                                          Double minRating, Double maxRating,
+                                          @RequestParam(defaultValue = "ID") ShipOrder order,
+                                          @RequestParam(defaultValue = "0") Integer pageNumber,
+                                          @RequestParam(defaultValue = "3") Integer pageSize) {
+        List<Ship> ships = shipService.getWithParams(name, planet, shipType, after, before, isUsed, minSpeed,
+                maxSpeed, minCrewSize, maxCrewSize, minRating, maxRating, order, pageNumber, pageSize);
         return new ResponseEntity<>(ships, HttpStatus.OK);
     }
 
@@ -48,5 +58,11 @@ public class ShipController {
     public ResponseEntity delete(@PathVariable() Long id) throws RuntimeException {
         shipService.delete(id);
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @PostMapping("/ships/{id}")
+    public ResponseEntity<Ship> update(@PathVariable() Long id, @RequestBody Ship ship) {
+        Ship updatedShip = shipService.update(id, ship);
+        return new ResponseEntity<>(updatedShip, HttpStatus.OK);
     }
 }

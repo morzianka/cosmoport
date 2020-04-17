@@ -5,10 +5,12 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
 public class ShipDAOImpl implements ShipDAO {
+    @PersistenceContext
     private final EntityManager entityManager;
 
     public ShipDAOImpl(EntityManager entityManager) {
@@ -16,6 +18,7 @@ public class ShipDAOImpl implements ShipDAO {
     }
 
     @Override
+    @Transactional
     public List<Ship> getAll() {
         return entityManager.createQuery("from ship", Ship.class).getResultList();
     }
@@ -28,16 +31,18 @@ public class ShipDAOImpl implements ShipDAO {
 
     @Override
     @Transactional
-    public void update(Ship ship) {
-
+    public Ship update(Ship ship) {
+        return entityManager.merge(ship);
     }
 
     @Override
+    @Transactional
     public Integer count() {
         return null;
     }
 
     @Override
+    @Transactional
     public Ship getById(Long id) {
         return entityManager.find(Ship.class, id);
     }

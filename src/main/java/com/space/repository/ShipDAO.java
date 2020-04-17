@@ -9,7 +9,7 @@ public interface ShipDAO {
 
     Ship add(Ship ship);
 
-    void update(Ship ship);
+    Ship update(Ship ship);
 
     Integer count();
 
