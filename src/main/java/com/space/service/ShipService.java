@@ -16,8 +16,6 @@ public interface ShipService {
 
     Ship update(Long id, Ship ship);
 
-    Integer count();
-
     Ship getById(Long id);
 
     Ship delete(Long id);

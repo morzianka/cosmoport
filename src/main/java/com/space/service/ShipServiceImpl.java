@@ -90,11 +90,6 @@ public class ShipServiceImpl implements ShipService {
     }
 
     @Override
-    public Integer count() {
-        return shipDAO.count();
-    }
-
-    @Override
     public Ship getById(Long id) throws InvalidParameterException, RequestException {
         if (id == 0) {
             throw new InvalidParameterException();

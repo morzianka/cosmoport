@@ -17,8 +17,6 @@ public interface ShipDAO {
 
     Ship update(Ship ship);
 
-    Integer count();
-
     Ship getById(Long id);
 
     Ship delete(Long id);

@@ -72,12 +72,6 @@ public class ShipDAOImpl implements ShipDAO {
 
     @Override
     @Transactional
-    public Integer count() {
-        return null;
-    }
-
-    @Override
-    @Transactional
     public Ship getById(Long id) {
         return entityManager.find(Ship.class, id);
     }
