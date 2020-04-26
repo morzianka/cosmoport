@@ -29,7 +29,8 @@ public class ShipController {
                                           Double minRating, Double maxRating,
                                           @RequestParam(defaultValue = "ID") ShipOrder order,
                                           @RequestParam(defaultValue = "0") Integer pageNumber,
-                                          @RequestParam(defaultValue = "3") Integer pageSize) {
+                                          @RequestParam(defaultValue = "3") Integer pageSize) throws RuntimeException {
+
         List<Ship> ships = shipService.getWithParams(name, planet, shipType, after, before, isUsed, minSpeed,
                 maxSpeed, minCrewSize, maxCrewSize, minRating, maxRating, order, pageNumber, pageSize);
         return new ResponseEntity<>(ships, HttpStatus.OK);
@@ -48,8 +49,15 @@ public class ShipController {
     }
 
     @GetMapping("/ships/count")
-    public ResponseEntity<Integer> count(@RequestParam() String name) throws RuntimeException {
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Integer> count(String name, String planet, ShipType shipType,
+                                         Long after, Long before, Boolean isUsed,
+                                         Double minSpeed, Double maxSpeed,
+                                         Integer minCrewSize, Integer maxCrewSize,
+                                         Double minRating, Double maxRating) throws RuntimeException {
+
+        List<Ship> ships = shipService.getWithParams(name, planet, shipType, after, before, isUsed, minSpeed,
+                maxSpeed, minCrewSize, maxCrewSize, minRating, maxRating, ShipOrder.ID, 0, Integer.MAX_VALUE);
+        return new ResponseEntity<>(ships.size(), HttpStatus.OK);
     }
 
     @DeleteMapping("/ships/{id}")
