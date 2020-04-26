@@ -22,10 +22,8 @@ public class ShipController {
     }
 
     @GetMapping("/ships")
-    public ResponseEntity<List<Ship>> get(String name, String planet,
-                                          @RequestParam(required = false) ShipType shipType,
-                                          Long after, Long before,
-                                          @RequestParam(defaultValue = "false") Boolean isUsed,
+    public ResponseEntity<List<Ship>> get(String name, String planet, ShipType shipType,
+                                          Long after, Long before, Boolean isUsed,
                                           Double minSpeed, Double maxSpeed,
                                           Integer minCrewSize, Integer maxCrewSize,
                                           Double minRating, Double maxRating,

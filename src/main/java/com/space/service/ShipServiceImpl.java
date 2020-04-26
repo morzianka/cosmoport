@@ -6,12 +6,8 @@ import com.space.exception.RequestException;
 import com.space.model.Ship;
 import com.space.model.ShipType;
 import com.space.repository.ShipDAO;
-import com.space.repository.ShipRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -24,31 +20,22 @@ import java.util.List;
 public class ShipServiceImpl implements ShipService {
     private static final ShipValidator validator = new ShipValidator();
     private final ShipDAO shipDAO;
-    private final ShipRepository shipRepository;
 
     @Autowired
-    public ShipServiceImpl(@Qualifier("shipDAOImpl") ShipDAO shipDAO, ShipRepository shipRepository) {
+    public ShipServiceImpl(@Qualifier("shipDAOImpl") ShipDAO shipDAO) {
         this.shipDAO = shipDAO;
-        this.shipRepository = shipRepository;
     }
 
-    //TODO
     public List<Ship> getWithParams(String name, String planet, ShipType shipType, Long after, Long before,
                                     Boolean isUsed, Double minSpeed, Double maxSpeed, Integer minCrewSize,
                                     Integer maxCrewSize, Double minRating, Double maxRating, ShipOrder order,
                                     Integer pageNumber, Integer pageSize) {
-        Date dateAfter = null;
-        if (after != null) {
-            dateAfter = new Date(after);
-        }
-        Date dateBefore = null;
-        if (before != null) {
-            dateBefore = new Date(before);
-        }
-        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(order.getFieldName()));
-        return shipRepository.findAllByNameLikeOrPlanetLikeOrShipTypeOrProdDateBetweenOrIsUsedOrSpeedBetweenOrCrewSizeBetweenOrRatingBetween(
-                name, planet, shipType, dateAfter, dateBefore, isUsed, minSpeed, maxSpeed,
-                minCrewSize, maxCrewSize, minRating, maxRating, pageable);
+
+        Date dateAfter = after != null ? new Date(after) : null;
+        Date dateBefore = before != null ? new Date(before) : null;
+
+        return shipDAO.getWithParams(name, planet, shipType, dateAfter, dateBefore, isUsed, minSpeed, maxSpeed,
+                minCrewSize, maxCrewSize, minRating, maxRating, order, pageNumber, pageSize);
     }
 
     @Override
