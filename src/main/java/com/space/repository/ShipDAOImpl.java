@@ -50,9 +50,11 @@ public class ShipDAOImpl implements ShipDAO {
         List<Predicate> predicates = predBuilder.getPredicates();
 
         criteria.where(predicates.toArray(new Predicate[0]));
-        criteria.orderBy(builder.asc(root.get(order.getFieldName())));
+        if (order != null) {
+            criteria.orderBy(builder.asc(root.get(order.getFieldName())));
+        }
         TypedQuery<Ship> query = entityManager.createQuery(criteria);
-        query.setFirstResult(pageNumber);
+        query.setFirstResult(pageSize * pageNumber);
         query.setMaxResults(pageSize);
 
         return query.getResultList();

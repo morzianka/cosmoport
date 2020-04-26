@@ -26,8 +26,7 @@ public class ShipController {
                                           Long after, Long before, Boolean isUsed,
                                           Double minSpeed, Double maxSpeed,
                                           Integer minCrewSize, Integer maxCrewSize,
-                                          Double minRating, Double maxRating,
-                                          @RequestParam(defaultValue = "ID") ShipOrder order,
+                                          Double minRating, Double maxRating, ShipOrder order,
                                           @RequestParam(defaultValue = "0") Integer pageNumber,
                                           @RequestParam(defaultValue = "3") Integer pageSize) throws RuntimeException {
 
